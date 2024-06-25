@@ -28,11 +28,14 @@ The `internal/model` folder holds the data representation types and structures. 
 This can be visualized as a series of progressively deeper layers
 
 ```mermaid
-graph TD;
-    A(server)-->B(core);
-    A-->C(rest);
-    B-->D(model);
-    C-->D;
+graph TD
+    A(server)
+    B(rest)
+    C(core)
+    D(model)
+
+    A--> B --> D
+    A --> C --> D
 ```
 
 This avoids any potential for cyclic dependencies and orients the api around the domain data.
