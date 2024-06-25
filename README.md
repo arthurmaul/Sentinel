@@ -25,7 +25,7 @@ The `internal/model` folder holds the data representation types and structures. 
 
 `internal/core` and `internal/rest` import `internal/model` , which will not import anything else.
 
-This can be visualized as a series of progressively deeper layers
+This can be visualized as a series of progressively deeper layers:
 
 ```mermaid
 graph TD
@@ -43,5 +43,5 @@ This avoids any potential for cyclic dependencies and orients the api around the
 This data should be defined first, and then the corresponding functionality should be created to manipulate that data.
 
 ## Use
-To build, do `go build ./cmd/server` . This will produce a binary called `server`
+To build, do `go build ./cmd/server` . This will produce a binary called `server` .
 
