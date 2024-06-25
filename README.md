@@ -41,5 +41,5 @@ This avoids any potential for cyclic dependencies and orients the api around the
 This data should be defined first, and then the corresponding functionality should be created to manipulate that data.
 
 ## Use
-To build, do simply do `docker build .` . This will produce a binary called `server` .
+To build, do simply do `docker build .` . This will produce a binary called `app` .
 
