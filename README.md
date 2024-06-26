@@ -49,5 +49,5 @@ This avoids any potential for cyclic dependencies and orients the api around the
 This data should be defined first, and then the corresponding functionality should be created to manipulate that data.
 
 # Documentation
-See the getting started [here](docs/gettingStarted.md) for further direction.
+See the getting started guide [here](docs/startup.md) for further direction.
 
