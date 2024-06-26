@@ -1,6 +1,14 @@
 # goworker
 A simple background worker for data orchestration and task handling in golang.
 
+## TODO
+- [ ] Write out one task, one routine, and one sensor
+- [ ] Trigger a task via a http request
+- [ ] Trigger a routine via a cron string schedule
+- [ ] Trigger a sensor with a file change
+- [ ] Put a file on disk
+- [ ] Pull a file from disk
+
 ## Architecture
 ```
 .
@@ -40,14 +48,6 @@ This avoids any potential for cyclic dependencies and orients the api around the
 
 This data should be defined first, and then the corresponding functionality should be created to manipulate that data.
 
-## TODO
-- [ ] Write out one task, one routine, and one sensor
-- [ ] Trigger a task via a http request
-- [ ] Trigger a routine via a cron string schedule
-- [ ] Trigger a sensor with a file change
-- [ ] Put a file on disk
-- [ ] Pull a file from disk
-
-## Use
-To build, do simply do `docker build .` . This will produce a binary called `app` .
+# Documentation
+See the getting started [here](docs/gettingStarted.md) for further direction.
 
