@@ -1,0 +1,56 @@
+package main
+
+import (
+    "log"
+    "net/http"
+    "github.com/d4l3k/go-pry/pry"
+)
+
+func handleTask(response http.ResponseWriter, request *http.Request) {
+    methodType := request.Method
+
+    taskID := request.PathValue("taskid")
+    dataToSendToTask := make(map[string][]string)
+    
+    pry.Pry()
+
+    switch methodType {
+    case "GET":
+        queryParams := request.URL.Query()
+        dataToSendToTask = queryParams
+    /*
+    case "POST":
+        err := json.NewDecoder(r.Body).Decode(&p)
+        if err != nil {
+            http.Error(w, err.Error(), http.StatusBadRequest)
+            return
+        }
+        payload := request.Body
+        dataToSendToTask = payload
+    */
+    }
+
+    log.Println(dataToSendToTask);
+
+    switch taskID {
+    case "writeFileTask":
+        polkadots(dataToSendToTask)
+    }
+}
+
+func polkadots(data any){
+    log.Println(data)
+}
+
+func main() {
+    router := http.NewServeMux()
+    router.HandleFunc("GET /tasks/{taskid}", handleTask)
+    router.HandleFunc("POST /tasks/{taskid}", handleTask)
+    server := http.Server{
+        Addr: "localhost:8080",
+        Handler: router,
+    }
+
+    log.Println("running on 8080")
+    server.ListenAndServe()
+}
