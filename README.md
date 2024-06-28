@@ -10,5 +10,5 @@ A simple background worker for data orchestration and task handling in golang.
 - [ ] Pull a file from disk
 
 # Documentation
-See the getting started guide [here](docs/quickstart.md) for further direction.
+See the manual [here](MANUAL.md) or the guide for contributors [here](CONTRIBUTING.md)
 
