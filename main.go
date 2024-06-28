@@ -20,8 +20,7 @@ func main() {
         Handler: router,
     }
 
-    go exampleRoutineA()
-    go exampleRoutineB()
+    triggerRoutines()
 
     err := server.ListenAndServe()
     if err != nil {
@@ -59,5 +58,10 @@ func triggerTask(id string, payload any) {
     default:
         log.Println("Task not found.")
     }
+}
+
+func triggerRoutines() {
+    go exampleRoutineA()
+    go exampleRoutineB()
 }
 
