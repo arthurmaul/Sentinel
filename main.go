@@ -1,7 +1,6 @@
 package main
 
 import (
-    "time"
     "log"
     "errors"
     "net/http"
@@ -59,32 +58,6 @@ func triggerTask(id string, payload any) {
         exampleTaskB(payload)
     default:
         log.Println("Task not found.")
-    }
-}
-
-func exampleTaskA(data any) error {
-    log.Println("Task A running ...")
-    return nil
-}
-
-func exampleTaskB(data any) error {
-    log.Println("Task B running ...")
-    return nil
-}
-
-func exampleRoutineA() {
-    ticker := time.NewTicker(5 * time.Second)
-    for {
-        <-ticker.C
-        http.Get(base + url + port + "/exampleTaskA?hello=world_a")
-    }
-}
-
-func exampleRoutineB() {
-    ticker := time.NewTicker(1 * time.Minute)
-    for {
-        <-ticker.C
-        http.Get(base + url + port + "/exampleTaskB?testing=routine_b")
     }
 }
 
