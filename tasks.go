@@ -1,14 +1,14 @@
 package main 
 
-import "log"
-
-func exampleTaskA(data any) error {
-    log.Println("Task A running ...")
-    return nil
+func exampleTaskA(run TaskRun) (TaskRun, error) {
+    run.log("taska log 1...")
+    run.log("taska log 2...")
+    return run, nil
 }
 
-func exampleTaskB(data any) error {
-    log.Println("Task B running ...")
-    return nil
+func exampleTaskB(run TaskRun) (TaskRun, error) {
+    run.log("taskb log 1...")
+    run.log("taskb log 2...")
+    return run, nil
 }
 
