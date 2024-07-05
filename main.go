@@ -4,7 +4,7 @@ package main
 TODO 2024.7.4:
     [ ] Functional (SERVER)
         [x] Log Runs of a Task
-        [ ] Store in DB (SQLite3)
+        [x] Store in DB (SQLite3)
         [ ] API/View URL to pull possible tasks (think like http://ourgoserver.com/tasks) and render HTMX layout
         [ ] API/View URL to show a previous task run and it's details
 
@@ -21,43 +21,50 @@ import (
     "errors"
     "net/http"
     "time"
+    "gorm.io/gorm"
+    "gorm.io/driver/sqlite"
 )
 
 const base = "http://"
 const url  = "localhost:"
 const port = "8080"
 
+var db, dberr = gorm.Open(sqlite.Open("tasks.db"), &gorm.Config{})
+
 type TaskLogLine struct {
-    time time.Time
-    message string
+    Message string
+    TaskRun TaskRun `gorm:"serializer:json"`
 }
 
 type TaskRun struct {
-    method string
-    task string
-    incomingPayload any
-    status string
-    errorDetails error
-    logs []TaskLogLine
-    start time.Time
-    stop time.Time
+    gorm.Model
+    ID uint
+    Method string
+    TaskName string
+    IncomingPayload any `gorm:"serializer:json"`
+    Status string
+    ErrorDetails error `gorm:"serializer:json"`
+    TaskLogLines []TaskLogLine `gorm:"serializer:json"`
+    Start time.Time
+    Stop time.Time
 }
+
 
 func (task *TaskRun) log(message string) {
     logLine := TaskLogLine{}
-    logLine.message = message
-    logLine.time = time.Now()
+    logLine.Message = message
 
-    task.logs = append(task.logs, logLine)
-    log.Println(task.logs)
-    log.Println(task.task, "\n\t" + message)
-}
-
-func (t *TaskRun) save() {
-    //Gorm save t.save()
+    task.TaskLogLines = append(task.TaskLogLines, logLine)
+    log.Println(task.TaskLogLines)
+    log.Println(task.TaskName, "\n\t" + message)
 }
 
 func main() {
+    if dberr != nil {
+        panic("Connection Error: Failed to connect database")
+    }
+    db.AutoMigrate(&TaskRun{})
+
     router := http.NewServeMux()
     router.HandleFunc("/", func(response http.ResponseWriter, request *http.Request) {
         http.ServeFile(response, request, "static/index.html")
@@ -89,10 +96,10 @@ func handleGetRequest(response http.ResponseWriter, request *http.Request) {
         "\n\tpayload:", payload,
     )
     run := TaskRun{}
-    run.task = taskId
-    run.incomingPayload = payload
-    run.method = request.Method
-    run.status = "Pending..."
+    run.TaskName = taskId
+    run.IncomingPayload = payload
+    run.Method = request.Method
+    run.Status = "Pending..."
     log.Println(taskRunner(run))
 }
 
@@ -103,24 +110,24 @@ func handlePostRequest(response http.ResponseWriter, request *http.Request) {
 func taskRunner(run TaskRun) TaskRun {
     start := time.Now()
     var err error = nil
-    if run.task == "exampleTaskA" {
+    if run.TaskName == "exampleTaskA" {
         run, err = exampleTaskA(run)
-    } else if run.task == "exampleTaskB" {
+    } else if run.TaskName == "exampleTaskB" {
         run, err = exampleTaskB(run)
     } else {
-        run.task = run.task + ": Not found"
+        run.TaskName = run.TaskName + ": Not found"
         err = errors.New("Task id provided is not registered in the system")
-        run.errorDetails = err
+        run.ErrorDetails = err
     }
     if err != nil {
-        run.status = "Failed"
+        run.Status = "Failed"
     } else {
-        run.status = "Success"
+        run.Status = "Success"
     }
-    run.errorDetails = err
-    run.start = start
-    run.stop = time.Now()
-    // run.save()
+    run.ErrorDetails = err
+    run.Start = start
+    run.Stop = time.Now()
+    db.Create(&run)
     return run
 }
 
