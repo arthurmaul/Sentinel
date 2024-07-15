@@ -68,6 +68,7 @@ func main() {
 	router.HandleFunc("/", func(response http.ResponseWriter, request *http.Request) {
 		http.ServeFile(response, request, "static/index.html")
 	})
+	// router.HandleFunc("GET /tasks", provideTaskData)
 	router.HandleFunc("GET /{taskid}", handleGetRequest)
 	router.HandleFunc("POST /{taskid}", handlePostRequest)
 	server := http.Server{
@@ -82,6 +83,10 @@ func main() {
 			log.Printf("error running http server: %s\n", err)
 		}
 	}
+}
+
+func provideTaskData(response http.ResponseWriter, request *http.Request) {
+    // return gorm.get
 }
 
 func handleGetRequest(response http.ResponseWriter, request *http.Request) {

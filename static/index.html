@@ -16,9 +16,14 @@
         </script>
         <main>
         <h1>Welcome to My Website</h1>
-        <button hx-get="http://localhost:8080/exampleTaskA">
-            Fire Task A
+        <button
+            hx-get="http://localhost:8080/tasks"
+            hx-target="#tasks"
+            hx-trigger="click">
+            Get tasks
         </button>
+        <p class="tasks">
+        </p>
         </main>
     </body>
 </html>

@@ -3,7 +3,7 @@ module github.com/arthurmaul/goworker
 go 1.22.3
 
 require (
-	github.com/a-h/templ v0.2.731 // indirect
+	github.com/a-h/templ v0.2.747 // indirect
 	github.com/americanexpress/baton v0.0.0-20200510181441-576339041346 // indirect
 	github.com/andybalholm/brotli v1.1.0 // indirect
 	github.com/d4l3k/go-pry v0.0.0-20230221054152-cca3eb982836 // indirect
