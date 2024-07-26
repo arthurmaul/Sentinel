@@ -1,5 +1,3 @@
-package main
-
 /********************
 TODO 2024.7.4:
     [ ] Functional (SERVER)
@@ -15,6 +13,7 @@ TODO 2024.7.4:
         [ ] Past run should log STDOUT, STDERR, incoming payload, etc, Start, End
 
 ********************/
+package main
 
 import (
 	"errors"
@@ -59,9 +58,9 @@ func (task *TaskRun) log(message string) {
 }
 
 func main() {
-	if dberr != nil {
-		panic("Connection Error: Failed to connect database")
-	}
+    if dberr != nil {
+        panic("Connection Error: Failed to connect database")
+    }
 	db.AutoMigrate(&TaskRun{})
 
 	router := http.NewServeMux()
@@ -75,6 +74,7 @@ func main() {
 		Addr:    url + port,
 		Handler: router,
 	}
+    log.Println("2")
 
 	routineRunner()
 	err := server.ListenAndServe()
@@ -86,7 +86,7 @@ func main() {
 }
 
 func provideTaskData(response http.ResponseWriter, request *http.Request) {
-    // return gorm.get
+    // pull data from gorm and inject into template
 }
 
 func handleGetRequest(response http.ResponseWriter, request *http.Request) {
